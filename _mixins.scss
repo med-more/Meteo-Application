@@ -1,0 +1,33 @@
+@mixin sticky-header {
+    position: sticky;
+    top: 0;
+    background-color: $bg-color1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-small;
+    padding: $spacing-medium 0;
+  }
+  
+  @mixin card-style {
+    background-color: $bg-color2;
+    padding: $spacing-medium;
+    border-radius: $spacing-medium;
+    margin-bottom: $spacing-medium;
+  
+    p {
+      font-size: $font-size-small;
+      color: #999;
+    }
+  
+    h2 {
+      font-size: $font-size-large;
+      font-weight: 500;
+    }
+  }
+  
+  @mixin grid-layout($columns, $gap) {
+    display: grid;
+    grid-template-columns: repeat($columns, 1fr);
+    gap: $gap;
+}
