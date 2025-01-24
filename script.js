@@ -1,5 +1,7 @@
 let cityInput = document.getElementById('city-input'),
 searchBtn = document.getElementById('searchBtn'),
+locationBtn = document.getElementById('locationBtn'),
+
 api_key = 'd38860a0b65e51579e110ea108ab41c4',
 currentWeatherCard = document.querySelector('.weather-left .card');
 fiveDaysForecastCard = document.querySelector('.day-forecast');
@@ -197,7 +199,28 @@ function getCityCoordinates() {
         });
 }
 
+function getUserCoordinates(){
+    navigator.geolocation.getCurrentPosition(position =>{
+        let {latitude, longitude} = position.coords;
+        let REVERSE_GEOCODING_URL = `https://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=1&appid=${api_key}` ;
+
+        fetch(REVERSE_GEOCODING_URL).then(res => res.json()).then(data =>{
+            let {name, country, state} = data[0];
+            getWeatherDetails(name, latitude, longitude, country, state);
+        }).catch(() =>{
+            alert("field to fetch user coordinates"); 
+        });
+    }, error =>{
+        if (error.code === error.PERMISSION_DENIED) {
+            alert('Geolocation permission denied. Please reset location permission to grant access again');
+        }
+    });
+}
+
 searchBtn.addEventListener('click', getCityCoordinates);
+locationBtn.addEventListener('click', getUserCoordinates);
+cityInput.addEventListener('keyup', e => e.key === 'entrer' && getCityCoordinates());
+window.addEventListener('load', getUserCoordinates);
 
 cityInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
