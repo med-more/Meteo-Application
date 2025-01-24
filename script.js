@@ -4,6 +4,7 @@ api_key = 'd38860a0b65e51579e110ea108ab41c4',
 currentWeatherCard = document.querySelector('.weather-left .card');
 fiveDaysForecastCard = document.querySelector('.day-forecast');
 aqiCard = document.querySelectorAll('.highlights .card')[0],
+sunriseCard = document.querySelectorAll('.highlights .card')[1],
 aqiList = ['Good', 'Fair', 'Moderate', 'Poor', 'Very Poor'];
 
 function getWeatherDetails(name, lat, lon, country, state) {
@@ -84,6 +85,35 @@ function getWeatherDetails(name, lat, lon, country, state) {
                     <p><i class="fa-light fa-location-dot"></i>${name}, ${country}</p>
                 </div>
             `;
+            let {sunrise, sunset} = data.sys,
+            {timezone} = data,
+            sRiseTime = moment.utc(sunrise, 'X').add(timezone, 'seconds').format('hh:mm A'),
+            sSetTime = moment.utc(sunset, 'X').add(timezone, 'seconds').format('hh:mm A');
+            sunriseCard.innerHTML = `
+                <div class="card-head">
+                            <p>Sunrise & Sunset</p>
+                        </div>
+                        <div class="sunrise-sunset">
+                            <div class="item">
+                                <div class="icon">
+                                    <i class="fa-light fa-sunrise fa-4x"></i>
+                                </div>
+                                <div>
+                                    <p>Sunrise</p>
+                                    <h2>${sRiseTime}</h2>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="icon">
+                                    <i class="fa-light fa-sunset fa-4x"></i>
+                                </div>
+                                <div>
+                                    <p>Sunset</p>
+                                    <h2>${sSetTime}</h2>
+                                </div>
+                            </div>
+                        </div>
+            `;
         })
         .catch(() => {
             alert('Failed to fetch the current weather');
@@ -140,7 +170,6 @@ function getCityCoordinates() {
 
 searchBtn.addEventListener('click', getCityCoordinates);
 
-// Optional: Allow pressing "Enter" to trigger the search
 cityInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
         getCityCoordinates();
