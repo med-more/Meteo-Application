@@ -5,6 +5,12 @@ currentWeatherCard = document.querySelector('.weather-left .card');
 fiveDaysForecastCard = document.querySelector('.day-forecast');
 aqiCard = document.querySelectorAll('.highlights .card')[0],
 sunriseCard = document.querySelectorAll('.highlights .card')[1],
+humidityVal = document.getElementById('humidityVal'),
+pressureVal = document.getElementById('pressureVal'),
+visibilityVal = document.getElementById('visibilityVal'),
+windspeedVal = document.getElementById('windspeedVal'),
+feelsVal = document.getElementById('feelsVal'),
+hourlyForecastCard = document.querySelector('.hourly-forecast'),
 aqiList = ['Good', 'Fair', 'Moderate', 'Poor', 'Very Poor'];
 
 function getWeatherDetails(name, lat, lon, country, state) {
@@ -86,7 +92,9 @@ function getWeatherDetails(name, lat, lon, country, state) {
                 </div>
             `;
             let {sunrise, sunset} = data.sys,
-            {timezone} = data,
+            {timezone, visibility} = data,
+            {humidity, pressure, feels_like} = data.main,
+            {speed} = data.wind,
             sRiseTime = moment.utc(sunrise, 'X').add(timezone, 'seconds').format('hh:mm A'),
             sSetTime = moment.utc(sunset, 'X').add(timezone, 'seconds').format('hh:mm A');
             sunriseCard.innerHTML = `
@@ -114,12 +122,33 @@ function getWeatherDetails(name, lat, lon, country, state) {
                             </div>
                         </div>
             `;
-        })
-        .catch(() => {
+            humidityVal.innerHTML = `${humidity}%`;
+            pressureVal.innerHTML = `${pressure}hPa`;
+            visibilityVal.innerHTML = `${visibility / 1000}km`;
+            windspeedVal.innerHTML = `${speed}m/s`;
+            feelsVal.innerHTML = `${(feels_like - 273.15).toFixed(2)}&deg;C`;
+        }).catch(() => {
             alert('Failed to fetch the current weather');
         });
 
         fetch(FORECAST_API_URL).then(res => res.json()).then(data =>{
+            let hourlyForecast = data.list;
+            hourlyForecastCard.innerHTML = '';
+            for(i = 0; i<=7; i++){
+                let hrForecastDate = new Date(hourlyForecast[i].dt_txt);
+                let hr = hrForecastDate.getHours();
+                let a = 'PM';
+                if(hr < 12) a = 'AM';
+                if(hr == 0) hr = 12;
+                if(hr > 12) hr = hr - 12;
+                hourlyForecastCard.innerHTML += `
+                    <div class="card">
+                        <p>${hr} ${a}</p>
+                        <img src="https://openweathermap.org/img/wn/${hourlyForecast[i].weather[0].icon}.png" alt="">
+                        <p>${(hourlyForecast[i].main.temp - 273.15).toFixed(2)}&deg;C</p>
+                    </div>
+                `;
+            }
             let uniqueForecastDays = [];
             let fiveDaysForecast = data.list.filter(forecast =>{
                 let forecastDate = new Date(forecast.dt_txt).getDate();
