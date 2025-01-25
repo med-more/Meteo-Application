@@ -1,0 +1,341 @@
+// Import variables and mixins
+@import 'variables';
+@import 'mixins';
+
+// Global reset
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+// Body styling
+body {
+  min-height: 100vh;
+  background-color: $bg-color1;
+  color: #fff;
+  font-family: $font-family;
+  padding: 0 $spacing-medium;
+}
+
+hr {
+  margin-bottom: $spacing-small;
+}
+
+.favoris{
+    background-color: green;
+}
+// Header styling
+.header {
+  @include sticky-header;
+
+  #city-input {
+    background-color: $bg-color2;
+    border: none;
+    padding: $spacing-small;
+    font-size: $font-size-base;
+    border-radius: $spacing-large;
+    color: #fff;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  #searchBtn {
+    border: none;
+    font-size: $font-size-base;
+    padding: $spacing-small;
+    border-radius: $spacing-large;
+    background-color: #fff;
+    cursor: pointer;
+  }
+
+  #locationBtn {
+    border: none;
+    font-size: $font-size-base;
+    padding: $spacing-small;
+    border-radius: $spacing-large;
+    background-color: #ea6e4b;
+    cursor: pointer;
+  }
+}
+
+// Card styling
+.card {
+  @include card-style;
+}
+
+// Weather data styling
+.weather-data {
+  @include grid-layout(4, $spacing-small);
+
+  .weather-left {
+    grid-column: span 1;
+
+    .current-weather {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .favorite-star{
+        position: absolute;
+        bottom: -55px;
+        right: 10px;
+        font-size: 24px;
+        color: #ccc;
+        cursor: pointer;
+        transition: color 0.3s ease ;
+        &:hover {
+            color:  #ffcc00;
+        }
+        &.favorited{
+            color: #ffcc00;
+        }
+      }
+      h2 {
+        margin: 7px 0;
+      }
+
+      p {
+        color: #fff;
+      }
+    }
+
+    .card-footer p {
+      font-size: $font-size-small;
+      margin-bottom: $spacing-small;
+    }
+
+    .forecast-item {
+      @include grid-layout(3, 0);
+      place-items: center;
+      margin-bottom: $spacing-medium;
+
+      .icon-wrapper {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+
+  .weather-right {
+    grid-column: span 3;
+
+    h2 {
+      margin-bottom: $spacing-small;
+    }
+
+    .highlights {
+      @include grid-layout(4, $spacing-medium);
+
+      .card:nth-of-type(1),
+      .card:nth-of-type(2) {
+        grid-column: span 2;
+      }
+
+      .card-head {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: $spacing-small;
+
+        .air-index {
+          color: #000;
+          padding: 5px 10px;
+          border-radius: $spacing-medium;
+
+          &.aqi-1 {
+            background-color: $aqi-1;
+          }
+
+          &.aqi-2 {
+            background-color: $aqi-2;
+          }
+
+          &.aqi-3 {
+            background-color: $aqi-3;
+          }
+
+          &.aqi-4 {
+            background-color: $aqi-4;
+          }
+
+          &.aqi-5 {
+            background-color: $aqi-5;
+          }
+        }
+      }
+
+      .air-indices {
+        @include grid-layout(4, 0);
+        place-items: center;
+
+        p {
+          text-align: center;
+        }
+      }
+
+      .sunrise-sunset {
+        @include grid-layout(2, 0);
+
+        .item {
+          display: flex;
+          align-items: center;
+          gap: $spacing-small;
+
+          h2 {
+            margin-top: $spacing-medium;
+          }
+        }
+      }
+
+      .card-item {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+
+    .hourly-forecast {
+      @include grid-layout(8, $spacing-small);
+
+      .card {
+        text-align: center;
+      }
+    }
+  }
+}
+
+// Media queries
+@media (max-width: $breakpoint-1100) {
+  .weather-data {
+    grid-template-columns: repeat(3, 1fr);
+
+    .weather-right {
+      grid-column: span 2;
+
+      .highlights {
+        grid-template-columns: repeat(3, 1fr);
+
+        .card:nth-of-type(1) {
+          grid-column: span 3;
+        }
+      }
+
+      .hourly-forecast {
+        grid-template-columns: repeat(6, 1fr);
+      }
+    }
+  }
+}
+
+@media (max-width: $breakpoint-1040) {
+  .weather-data {
+    grid-template-columns: repeat(2, 1fr);
+
+    .weather-right {
+      grid-column: span 1;
+
+      .highlights {
+        grid-template-columns: repeat(2, 1fr);
+
+        .card:nth-of-type(1) {
+          grid-column: span 2;
+        }
+      }
+
+      .hourly-forecast {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+  }
+}
+
+@media (max-width: $breakpoint-992) {
+  .weather-data .weather-right .highlights {
+    .card {
+      grid-column: span 2;
+    }
+
+    .air-indices {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}
+
+@media (max-width: $breakpoint-850) {
+  .weather-data {
+    grid-template-columns: 1fr;
+
+    .weather-right .highlights {
+      .card:nth-of-type(3),
+      .card:nth-of-type(4),
+      .card:nth-of-type(5),
+      .card:nth-of-type(6),
+      .card:nth-of-type(7) {
+        grid-column: span 1;
+      }
+
+      .air-indices {
+        grid-template-columns: repeat(5, 1fr);
+      }
+    }
+  }
+}
+
+@media (max-width: $breakpoint-660) {
+  .header {
+    flex-direction: column;
+
+    h2 {
+      margin-bottom: 8px;
+    }
+
+    #city-input,
+    #searchBtn,
+    #locationBtn {
+      width: 100%;
+      margin-bottom: $spacing-small;
+    }
+  }
+}
+
+@media (max-width: $breakpoint-580) {
+  .weather-data .weather-right .highlights .air-indices {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: $breakpoint-520) {
+  .weather-data .weather-right .highlights {
+    .card:nth-of-type(3),
+    .card:nth-of-type(4),
+    .card:nth-of-type(5),
+    .card:nth-of-type(6),
+    .card:nth-of-type(7) {
+      grid-column: span 2;
+    }
+
+    .air-indices {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}
+
+@media (max-width: $breakpoint-480) {
+  .weather-data .weather-right .highlights .sunrise-sunset {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: $breakpoint-450) {
+  .weather-data .weather-right .hourly-forecast {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: $breakpoint-380) {
+  .weather-data .weather-right .highlights .air-indices {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

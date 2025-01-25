@@ -6,7 +6,7 @@
     <title>WeatherNow</title>
     <link href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css" rel="stylesheet">
     <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
     <div class="container">
@@ -34,6 +34,7 @@
                         <div class="weather-icon">
                             <img src="assets/icons/cloudy.svg">
                         </div>
+                        <i class="fa-regular fa-star favorite-star"></i>
                     </div>
                     <hr>
                     <div class="card-footer">
@@ -245,8 +246,14 @@
                         <p>____&deg;C</p>
                     </div>
                 </div>
+                <h2>Favorites</h2>
+                <div class="favorites">
+                    <!-- Favorite cities will be dynamically added here -->
+                </div>
             </div>
         </div>
     </div>
+    <script src="https://momentjs.com/downloads/moment.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
