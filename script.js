@@ -1,7 +1,8 @@
 let cityInput = document.getElementById('city-input'),
 searchBtn = document.getElementById('searchBtn'),
 locationBtn = document.getElementById('locationBtn'),
-
+favoriteBtn = document.getElementById('favoriteBtn'),
+favoritesContainer = document.querySelector('.favorites'),
 api_key = 'd38860a0b65e51579e110ea108ab41c4',
 currentWeatherCard = document.querySelector('.weather-left .card');
 fiveDaysForecastCard = document.querySelector('.day-forecast');
@@ -14,6 +15,55 @@ windspeedVal = document.getElementById('windspeedVal'),
 feelsVal = document.getElementById('feelsVal'),
 hourlyForecastCard = document.querySelector('.hourly-forecast'),
 aqiList = ['Good', 'Fair', 'Moderate', 'Poor', 'Very Poor'];
+
+let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+function saveFavorites(){
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+}
+
+function addFavorite(city){
+    if(!favorites.includes(city)){
+        favorites.push(city);
+        saveFavorites();
+        displayFavorites();
+    }
+}
+
+function removeFavorite(city){
+    favorites = favorites.filter(fav => fav !== city);
+    saveFavorites();
+    displayFavorites();
+}
+
+function displayFavorites(){
+    favoritesContainer.innerHTML = '';
+    favorites.forEach(city =>{
+        fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${api_key}`).then(res => res.json()).then(data =>{
+            let {lat, lon} = data[0];
+            fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${api_key}`).then(res => res.json()).then(weatherData =>{
+                let favoriteItem = document.createElement('div');
+                favoriteItem.classList.add('favorite-item');
+                favoriteItem.innerHTML = `
+                     <p>${city}</p>
+                            <img src="https://openweathermap.org/img/wn/${weatherData.weather[0].icon}.png" alt="${weatherData.weather[0].description}">
+                            <p>${(weatherData.main.temp - 273.15).toFixed(2)}&deg;C</p>
+                            <button class="delete-btn" onclick="removeFavorite('${city}')">X</button>
+                        `;
+                        favoritesContainer.appendChild(favoriteItem);
+            });
+        });
+    });
+}
+
+function updateStarIcon(city){
+    let favoriteStar = document.querySelector('.favorite-star');
+    if(favorites.includes(city)){
+        favoriteStar.classList.add('favorited');
+    }else{
+        favoriteStar.classList.remove('favorited');
+    }
+}
 
 function getWeatherDetails(name, lat, lon, country, state) {
     let FORECAST_API_URL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${api_key}`,
@@ -86,6 +136,7 @@ function getWeatherDetails(name, lat, lon, country, state) {
                     <div class="weather-icon">
                         <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="${data.weather[0].description}">
                     </div>
+                    <i class="fa-regular fa-star favorite-star"></i>
                 </div>
                 <hr>
                 <div class="card-footer">
@@ -93,6 +144,20 @@ function getWeatherDetails(name, lat, lon, country, state) {
                     <p><i class="fa-light fa-location-dot"></i>${name}, ${country}</p>
                 </div>
             `;
+            updateStarIcon(name);
+
+            let favoriteStar = document.querySelector('.favorite-star');
+            favoriteStar.addEventListener('click', () => {
+                let city = document.querySelector('.card-footer p:nth-child(2)').textContent.split(',')[0].trim();
+                if (!favorites.includes(city)) {
+                    addFavorite(city);
+                    updateStarIcon(city);
+                } else {
+                    removeFavorite(city);
+                    updateStarIcon(city);
+                }
+            });
+
             let {sunrise, sunset} = data.sys,
             {timezone, visibility} = data,
             {humidity, pressure, feels_like} = data.main,
@@ -101,7 +166,7 @@ function getWeatherDetails(name, lat, lon, country, state) {
             sSetTime = moment.utc(sunset, 'X').add(timezone, 'seconds').format('hh:mm A');
             sunriseCard.innerHTML = `
                 <div class="card-head">
-                            <p>Sunrise & Sunset</p>
+                        <p>Sunrise & Sunset</p>
                         </div>
                         <div class="sunrise-sunset">
                             <div class="item">
@@ -136,7 +201,7 @@ function getWeatherDetails(name, lat, lon, country, state) {
         fetch(FORECAST_API_URL).then(res => res.json()).then(data =>{
             let hourlyForecast = data.list;
             hourlyForecastCard.innerHTML = '';
-            for(i = 0; i<=7; i++){
+            for(i = 0; i <= 7; i++){
                 let hrForecastDate = new Date(hourlyForecast[i].dt_txt);
                 let hr = hrForecastDate.getHours();
                 let a = 'PM';
@@ -159,7 +224,7 @@ function getWeatherDetails(name, lat, lon, country, state) {
                 }
             });
             fiveDaysForecastCard.innerHTML = '';
-            for(i = 1; i<fiveDaysForecast.length; i++){
+            for(i = 1; i < fiveDaysForecast.length; i++){
                 let date = new Date(fiveDaysForecast[i].dt_txt);
                 fiveDaysForecastCard.innerHTML += `
                     <div class="forecast-item">
@@ -225,5 +290,6 @@ window.addEventListener('load', getUserCoordinates);
 cityInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
         getCityCoordinates();
+        displayFavorites();
     }
 });
