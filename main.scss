@@ -339,3 +339,62 @@ hr {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+
+.delete-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.delete-btn:hover {
+    background-color: #e60000;
+    transform: scale(1.1);
+}
+
+.delete-btn:active {
+    transform: scale(0.9);
+}
+.favorites {
+  @include grid-layout(8, $spacing-small); // Use the same grid layout as other cards
+  margin-top: $spacing-medium;
+
+  .card {
+      @include card-style; // Apply the same card styling
+      background: $bg-color2; // Use the same gradient background
+      text-align: center;
+      padding: $spacing-medium;
+
+      p {
+          margin-bottom: $spacing-small;
+          font-size: $font-size-small;
+          color: #fff; // White text for contrast
+      }
+
+      img {
+          width: 50px;
+          height: 50px;
+          margin-bottom: $spacing-small;
+      }
+
+      .remove-btn {
+          background-color: #ff4d4d;
+          border: none;
+          color: #fff;
+          padding: 5px 10px;
+          border-radius: $spacing-small;
+          cursor: pointer;
+          margin-top: $spacing-small;
+
+          &:hover {
+              background-color: darken(#ff4d4d, 10%); // Darken the button on hover
+          }
+      }
+  }
+}

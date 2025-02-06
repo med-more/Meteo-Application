@@ -42,24 +42,27 @@ function removeFavorite(city) {
 // Function to display favorites
 function displayFavorites() {
     favoritesContainer.innerHTML = '';
-    favorites.forEach(city => {
-        fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${api_key}`).then(res => res.json()).then(data => {
-            let { lat, lon } = data[0];
-            fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${api_key}`).then(res => res.json()).then(weatherData => {
-                let favoriteItem = document.createElement('div');
-                favoriteItem.classList.add('favorite-item');
-                favoriteItem.innerHTML = `
-                    <p>${city}</p>
-                    <img src="${getAmChartsIconPath(weatherData.weather[0].icon)}" alt="${weatherData.weather[0].description}" style="width: 50px; height: 50px;">
-                    <p>${(weatherData.main.temp - 273.15).toFixed(2)}&deg;C</p>
-                    <button class="delete-btn" onclick="removeFavorite('${city}')">X</button>
-                `;
-                favoritesContainer.appendChild(favoriteItem);
+    favorites.forEach((city, index) => {
+        fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${api_key}`)
+            .then(res => res.json())
+            .then(data => {
+                let { lat, lon } = data[0];
+                fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${api_key}`)
+                    .then(res => res.json())
+                    .then(weatherData => {
+                        let favoriteItem = document.createElement('div');
+                        favoriteItem.classList.add('card');
+                        favoriteItem.innerHTML = `
+                            <p>${city}</p>
+                            <img src="${getAmChartsIconPath(weatherData.weather[0].icon)}" alt="${weatherData.weather[0].description}">
+                            <p>${(weatherData.main.temp - 273.15).toFixed(2)}°C</p>
+                            <button class="remove-btn" onclick="removeFavorite('${city}')">X</button>
+                        `;
+                        favoritesContainer.appendChild(favoriteItem);
+                    });
             });
-        });
     });
 }
-
 // Function to update the star icon based on whether the city is favorited
 function updateStarIcon(city) {
     let favoriteStar = document.querySelector('.favorite-star');
