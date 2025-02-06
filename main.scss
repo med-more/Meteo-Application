@@ -398,3 +398,26 @@ hr {
       }
   }
 }
+.city-suggestions {
+  position: absolute;
+  background: rgba($bg-color2, 0.8); // Transparent background using rgba
+  border-radius: $spacing-small;
+  margin-top: $spacing-small;
+  width: 20%;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000; // Ensure it's above other content
+  display: none; // Hidden by default
+  backdrop-filter: blur(5px); // Optional: Add a blur effect to the background
+
+  .suggestion-item {
+      padding: $spacing-small;
+      cursor: pointer;
+      color: #fff; // White text for contrast
+      font-size: $font-size-small;
+
+      &:hover {
+          background: rgba(255, 255, 255, 0.1); // Light hover effect
+      }
+  }
+}

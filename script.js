@@ -98,6 +98,48 @@ function getAmChartsIconPath(iconCode) {
     return iconMap[iconCode] || 'https://www.amcharts.com/wp-content/themes/amcharts4/css/img/icons/weather/animated/cloudy.svg'; // Default to cloudy icon
 }
 
+function fetchCitySuggestions(input) {
+    if (input.length < 2) return; // Don't fetch suggestions for single letters
+
+    let GEOCODING_API_URL = `http://api.openweathermap.org/geo/1.0/direct?q=${input}&limit=5&appid=${api_key}`;
+
+    fetch(GEOCODING_API_URL)
+        .then(res => {
+            if (!res.ok) throw new Error('Failed to fetch city suggestions');
+            return res.json();
+        })
+        .then(data => {
+            displayCitySuggestions(data);
+        })
+        .catch(() => {
+            console.error("Failed to fetch city suggestions");
+        });
+}
+
+function displayCitySuggestions(cities) {
+    let suggestionsContainer = document.getElementById('city-suggestions');
+    suggestionsContainer.innerHTML = ''; // Clear previous suggestions
+
+    if (cities.length === 0) {
+        suggestionsContainer.style.display = 'none'; // Hide if no suggestions
+        return;
+    }
+
+    cities.forEach(city => {
+        let suggestionItem = document.createElement('div');
+        suggestionItem.classList.add('suggestion-item');
+        suggestionItem.textContent = `${city.name}, ${city.country}`;
+        suggestionItem.addEventListener('click', () => {
+            cityInput.value = `${city.name}, ${city.country}`; // Fill input with selected city
+            suggestionsContainer.style.display = 'none'; // Hide suggestions
+            getCityCoordinates(); // Fetch weather for the selected city
+        });
+        suggestionsContainer.appendChild(suggestionItem);
+    });
+
+    suggestionsContainer.style.display = 'block'; // Show suggestions
+}
+
 // Function to fetch and display weather details
 function getWeatherDetails(name, lat, lon, country, state) {
     let FORECAST_API_URL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${api_key}`,
@@ -324,10 +366,17 @@ locationBtn.addEventListener('click', getUserCoordinates);
 cityInput.addEventListener('keyup', e => e.key === 'Enter' && getCityCoordinates());
 window.addEventListener('load', getUserCoordinates);
 
-cityInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-        getCityCoordinates();
-        displayFavorites();
+cityInput.addEventListener('input', (e) => {
+    let input = e.target.value.trim();
+    if (input.length >= 2) {
+        fetchCitySuggestions(input);
+    } else {
+        document.getElementById('city-suggestions').style.display = 'none'; // Hide suggestions for short input
+    }
+});
+document.addEventListener('click', (e) => {
+    if (e.target !== cityInput) {
+        document.getElementById('city-suggestions').style.display = 'none';
     }
 });
 
