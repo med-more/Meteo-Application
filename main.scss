@@ -295,7 +295,7 @@ hr {
     #searchBtn,
     #locationBtn {
       width: 100%;
-      margin-bottom: $spacing-small;
+      margin-bottom: $spacing-medium;
     }
   }
 }
@@ -467,5 +467,75 @@ hr {
           font-size: $font-size-small;
           margin: 0;
       }
+  }
+}
+
+
+// Favorites section
+.favorites {
+  @include grid-layout(8, $spacing-small); // Use the same grid layout as other cards
+  margin-top: $spacing-medium;
+
+  .card {
+      @include card-style; // Apply the same card styling
+      background: $bg-color2; // Use the same gradient background
+      text-align: center;
+      padding: $spacing-medium;
+
+      p {
+          margin-bottom: $spacing-small;
+          font-size: $font-size-small;
+          color: #fff; // White text for contrast
+      }
+
+      img {
+          width: 50px;
+          height: 50px;
+          margin-bottom: $spacing-small;
+      }
+
+      .remove-btn {
+          background-color: #ff4d4d;
+          border: none;
+          color: #fff;
+          padding: 5px 10px;
+          border-radius: $spacing-small;
+          cursor: pointer;
+          margin-top: $spacing-small;
+
+          &:hover {
+              background-color: darken(#ff4d4d, 10%); // Darken the button on hover
+          }
+      }
+  }
+}
+
+@media (max-width: $breakpoint-1100) {
+  .favorites {
+      grid-template-columns: repeat(6, 1fr); // 6 columns for screens below 1100px
+  }
+}
+
+@media (max-width: $breakpoint-850) {
+  .favorites {
+      grid-template-columns: repeat(4, 1fr); // 4 columns for screens below 850px
+  }
+}
+
+@media (max-width: $breakpoint-660) {
+  .favorites {
+      grid-template-columns: repeat(3, 1fr); // 3 columns for screens below 660px
+  }
+}
+
+@media (max-width: $breakpoint-480) {
+  .favorites {
+      grid-template-columns: repeat(2, 1fr); // 2 columns for screens below 480px
+  }
+}
+
+@media (max-width: $breakpoint-380) {
+  .favorites {
+      grid-template-columns: 1fr; // 1 column for very small screens
   }
 }
