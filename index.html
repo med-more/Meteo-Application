@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WeatherNow</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD" crossorigin="anonymous">
     <link href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css" rel="stylesheet">
     <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="main.css">
@@ -11,15 +12,15 @@
 <body>
     <div class="container">
         <div class="header">
-            <h2>WeatherNow</h2>
+            <h1>Weather<span style="color: #ea6e4b;">Now</span><i class="fa-light fa-temperature-high fa-xl"></i></h1>
             <div class="weather-input">
-                <input type="text" name="city" id="city-input" placeholder="Enter a city">
+                <input type="text" name="city" id="city-input" placeholder="Enter a city...">
                 <div id="city-suggestions" class="city-suggestions"></div>
                 <button type="button" id="searchBtn">
                     <i class="fa-regular fa-search"></i> Search
                 </button>
                 <button type="button" id="locationBtn">
-                    <i class="bx bx-target-lock"></i> Current Location
+                    <i class="bi bi-geo-alt-fill"></i> Current Location
                 </button>
             </div>
         </div>
@@ -33,7 +34,7 @@
                             <p>_____</p>
                         </div>
                         <div class="weather-icon">
-                            <img src="assets/icons/animated/day.svg" alt="Weather Icon">
+                            <img src="assets/icons/cloudy-day-3.svg" alt="Weather Icon">
                         </div>
                         <i class="fa-regular fa-star favorite-star"></i>
                     </div>
@@ -46,9 +47,10 @@
                 <div class="card">
                     <h2>5 Days Forecast</h2>
                     <div class="day-forecast">
+                        <!-- Forecast items will be dynamically added here -->
                         <div class="forecast-item">
                             <div class="icon-wrapper">
-                                <img src="assets/icons/animated/day.svg" alt="Weather Icon">
+                                <img src="assets/icons/cloudy-day-1.svg" alt="">
                                 <span>____&deg;C</span>
                             </div>
                             <p>_____</p>
@@ -56,7 +58,7 @@
                         </div>
                         <div class="forecast-item">
                             <div class="icon-wrapper">
-                                <img src="assets/icons/animated/cloudy-day-1.svg" alt="Weather Icon">
+                                <img src="assets/icons/cloudy-day-1.svg" alt="">
                                 <span>____&deg;C</span>
                             </div>
                             <p>_____</p>
@@ -64,7 +66,7 @@
                         </div>
                         <div class="forecast-item">
                             <div class="icon-wrapper">
-                                <img src="assets/icons/animated/cloudy-day-2.svg" alt="Weather Icon">
+                                <img src="assets/icons/cloudy-day-1.svg" alt="">
                                 <span>____&deg;C</span>
                             </div>
                             <p>_____</p>
@@ -72,7 +74,7 @@
                         </div>
                         <div class="forecast-item">
                             <div class="icon-wrapper">
-                                <img src="assets/icons/animated/cloudy-day-3.svg" alt="Weather Icon">
+                                <img src="assets/icons/cloudy-day-1.svg" alt="">
                                 <span>____&deg;C</span>
                             </div>
                             <p>_____</p>
@@ -80,7 +82,7 @@
                         </div>
                         <div class="forecast-item">
                             <div class="icon-wrapper">
-                                <img src="assets/icons/animated/rainy-6.svg" alt="Weather Icon">
+                                <img src="assets/icons/cloudy-day-1.svg" alt="">
                                 <span>____&deg;C</span>
                             </div>
                             <p>_____</p>
@@ -208,42 +210,42 @@
                 <div class="hourly-forecast">
                     <div class="card">
                         <p>9 Am</p>
-                        <img src="assets/icons/animated/cloudy-day-3.svg" alt="Weather Icon">
+                        <img src="assets/icons/cloudy-day-1.svg" alt="Weather Icon">
                         <p>____&deg;C</p>
                     </div>
                     <div class="card">
                         <p>9 Am</p>
-                        <img src="assets/icons/animated/cloudy-day-3.svg" alt="Weather Icon">
+                        <img src="assets/icons/cloudy-day-1.svg" alt="Weather Icon">
                         <p>____&deg;C</p>
                     </div>
                     <div class="card">
                         <p>9 Am</p>
-                        <img src="assets/icons/animated/cloudy-day-3.svg" alt="Weather Icon">
+                        <img src="assets/icons/cloudy-day-1.svg" alt="Weather Icon">
                         <p>____&deg;C</p>
                     </div>
                     <div class="card">
                         <p>9 Am</p>
-                        <img src="assets/icons/animated/cloudy-day-3.svg" alt="Weather Icon">
+                        <img src="assets/icons/cloudy-day-1.svg" alt="Weather Icon">
                         <p>____&deg;C</p>
                     </div>
                     <div class="card">
                         <p>9 Am</p>
-                        <img src="assets/icons/animated/cloudy-day-3.svg" alt="Weather Icon">
+                        <img src="assets/icons/cloudy-day-1.svg" alt="Weather Icon">
                         <p>____&deg;C</p>
                     </div>
                     <div class="card">
                         <p>9 Am</p>
-                        <img src="assets/icons/animated/cloudy-day-3.svg" alt="Weather Icon">
+                        <img src="assets/icons/cloudy-day-1.svg" alt="Weather Icon">
                         <p>____&deg;C</p>
                     </div>
                     <div class="card">
                         <p>9 Am</p>
-                        <img src="assets/icons/animated/cloudy-day-3.svg" alt="Weather Icon">
+                        <img src="assets/icons/cloudy-day-1.svg" alt="Weather Icon">
                         <p>____&deg;C</p>
                     </div>
                     <div class="card">
                         <p>9 Am</p>
-                        <img src="assets/icons/animated/cloudy-day-3.svg" alt="Weather Icon">
+                        <img src="assets/icons/cloudy-day-1.svg" alt="Weather Icon">
                         <p>____&deg;C</p>
                     </div>
                 </div>
@@ -268,6 +270,21 @@
             </div>
         </div>
     </div>
+
+    <footer class="footer">
+        <div class="footer-top">
+            <h1>Weather<span style="color: #ea6e4b;">Now</span><i class="fa-light fa-temperature-high fa-xl"></i></h1>
+            <div class="social-icons">
+                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Weather<span style="color: #ea6e4b;">Now</span><i class="fa-light fa-temperature-high fa-md"></i>. All rights reserved.</p>
+        </div>
+    </footer>
     <script src="https://momentjs.com/downloads/moment.min.js"></script>
     <script src="script.js"></script>
 </body>

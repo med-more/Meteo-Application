@@ -421,3 +421,51 @@ hr {
       }
   }
 }
+// Footer styling
+.footer {
+  background: $bg-color2; // Use the same gradient background as cards
+  color: #fff; // White text for contrast
+  padding: $spacing-medium 0;
+  margin-top: $spacing-large; // Add some space above the footer
+
+  .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 $spacing-medium;
+
+      .app-name {
+          font-size: $font-size-large;
+          margin: 0;
+      }
+
+      .social-icons {
+          display: flex;
+          gap: $spacing-medium;
+
+          .social-icon {
+              color: #fff; // White icons
+              font-size: 1.5rem;
+              transition: color 0.3s ease;
+
+              &:hover {
+                  color: #ea6e4b; // Change color on hover
+              }
+          }
+      }
+  }
+
+  .footer-bottom {
+      text-align: center;
+      margin-top: $spacing-medium;
+      padding-top: $spacing-small;
+      border-top: 1px solid rgba(255, 255, 255, 0.1); // Optional: Add a subtle border
+
+      p {
+          font-size: $font-size-small;
+          margin: 0;
+      }
+  }
+}
