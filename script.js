@@ -382,3 +382,117 @@ document.addEventListener('click', (e) => {
 
 // Initial display of favorites
 displayFavorites();
+
+// Initialize EmailJS with your User ID
+(function () {
+    emailjs.init("vRMl-7K7hM7ItUObZ"); // Replace with your EmailJS User ID
+  })();
+  
+  document.getElementById('contactForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+  
+    // Clear previous errors
+    clearErrors();
+  
+    // Get form values
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const problem = document.getElementById('problem').value.trim();
+  
+    // Validation flags
+    let isValid = true;
+  
+    // Name validation
+    if (!name) {
+      showError('nameError', 'Name is required');
+      isValid = false;
+    }
+  
+    // Email validation
+    if (!email) {
+      showError('emailError', 'Email is required');
+      isValid = false;
+    } else if (!validateEmail(email)) {
+      showError('emailError', 'Email is invalid');
+      isValid = false;
+    }
+  
+    // Problem description validation
+    if (!problem) {
+      showError('problemError', 'Problem description is required');
+      isValid = false;
+    }
+  
+    // Submit form if valid
+    if (isValid) {
+      // Send email using EmailJS
+      emailjs
+        .send("service_9uwjqvl", "template_yjr6xvd", {
+          name: name,
+          email: email,
+          problem: problem,
+        })
+        .then(
+          function (response) {
+            // Show success toast
+            Toastify({
+              text: "Problem reported successfully! 🎉",
+              duration: 3000,
+              close: true,
+              gravity: "center",
+              position: "center",
+              backgroundColor: "#4CAF50",
+              stopOnFocus: true,
+            }).showToast();
+  
+            // Reset the form
+            document.getElementById('contactForm').reset();
+          },
+          function (error) {
+            // Show error toast
+            Toastify({
+              text: "Failed to send the report. Please try again. 😕",
+              duration: 3000,
+              close: true,
+              gravity: "center",
+              position: "center",
+              backgroundColor: "#FF5252",
+              stopOnFocus: true,
+            }).showToast();
+          }
+        );
+    } else {
+      // Show error toast
+      Toastify({
+        text: "Please fix the errors in the form. 😕",
+        duration: 3000,
+        close: true,
+        gravity: "center",
+        position: "center",
+        backgroundColor: "#FF5252",
+        stopOnFocus: true,
+      }).showToast();
+    }
+  });
+  
+  // Function to display error messages
+  function showError(elementId, message) {
+    const errorElement = document.getElementById(elementId);
+    if (errorElement) {
+      errorElement.textContent = message;
+    }
+  }
+  
+  // Function to clear all error messages
+  function clearErrors() {
+    const errorElements = document.querySelectorAll('.error');
+    errorElements.forEach((element) => {
+      element.textContent = '';
+    });
+  }
+  
+  // Simple email validation function
+  function validateEmail(email) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  }

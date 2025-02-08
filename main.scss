@@ -449,10 +449,6 @@ hr {
               color: #fff; // White icons
               font-size: 1.5rem;
               transition: color 0.3s ease;
-
-              &:hover {
-                  color: #ea6e4b; // Change color on hover
-              }
           }
       }
   }
@@ -461,13 +457,74 @@ hr {
       text-align: center;
       margin-top: $spacing-medium;
       padding-top: $spacing-small;
-      border-top: 1px solid rgba(255, 255, 255, 0.1); // Optional: Add a subtle border
+      border-top: 2px solid rgba(255, 255, 255, 0.1); // Optional: Add a subtle border
 
       p {
-          font-size: $font-size-small;
+          font-size: $font-size-base;
           margin: 0;
       }
   }
+  .contact-form {
+    max-width: 800px;
+    margin: $spacing-large auto 0;
+    padding: 0 $spacing-large;
+  }
+  h3 {
+    font-size: $font-size-large;
+    margin-bottom: $spacing-medium;
+    text-align: center;
+    color: #ea6e4b
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-medium;
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-small;
+      label {
+        font-size: $font-size-small;
+        color: #fff;
+    }
+    input,
+    textarea {
+        padding: $spacing-small;
+        font-size: $font-size-small;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: $spacing-small;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: #fff;
+
+        &:focus {
+            outline: none;
+            border-color: #ea6e4b;
+        }
+    }
+    }
+    textarea {
+      resize: vertical; // Allow vertical resizing
+  }
+  .error {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  }
+  .send-btn {
+    padding: $spacing-small $spacing-medium;
+    font-size: $font-size-small;
+    background-color: #ea6e4b;
+    color: #fff;
+    border: none;
+    border-radius: $spacing-small;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: darken(#ea6e4b, 10%); // Darken on hover
+    }
+}
 }
 
 
